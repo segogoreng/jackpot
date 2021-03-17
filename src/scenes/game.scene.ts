@@ -3,8 +3,8 @@ import { GameConstants } from '../constants/game.constants';
 
 export class GameScene extends Phaser.Scene {
     private giftbox: Phaser.GameObjects.Sprite;
-    private tweenGiftbox: Phaser.Tweens.Tween;
-    private fireworkEmitter: Phaser.GameObjects.Particles.ParticleEmitter[] = [];
+    private particle: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    private animating = false;
 
     constructor() {
         super({ key: 'GameScene' });
@@ -21,6 +21,8 @@ export class GameScene extends Phaser.Scene {
 
         this.initializeGiftbox();
         this.initializeFireworkEffect();
+
+        this.input.on('pointerdown', this.startGiftboxAnimation, this);
     }
 
     update(): void {}
@@ -30,32 +32,41 @@ export class GameScene extends Phaser.Scene {
         this.giftbox.scale = 0.5;
         this.giftbox.scaleX = 0.85;
         this.giftbox.setDepth(1);
-
-        let ctr = 0;
-
-        this.tweenGiftbox = this.tweens.add({
-            targets: [this.giftbox],
-            repeat: 2,
-            duration: 450,
-            yoyo: true,
-            ease: 'Quad.easeIn',
-            scaleX: 0,
-            onYoyo: () => {
-                ctr++;
-                if (ctr == 3) {
-                    this.startFireworkEffect();
-                }
-            },
-        });
     }
 
     private initializeFireworkEffect(): void {
-        const spark0 = this.add.particles('particle');
+        this.particle = this.add.particles('particle');
+    }
 
+    private startGiftboxAnimation(): void {
+        if (!this.animating) {
+            this.animating = true;
+            let ctr = 0;
+            this.tweens.add({
+                targets: [this.giftbox],
+                repeat: 2,
+                duration: 450,
+                yoyo: true,
+                ease: 'Quad.easeIn',
+                scaleX: 0,
+                onYoyo: () => {
+                    ctr++;
+                    if (ctr == 3) {
+                        this.startFireworkEffect();
+                    }
+                },
+                onComplete: () => {
+                    this.animating = false;
+                },
+            });
+        }
+    }
+
+    private startFireworkEffect(): void {
         for (let i = 0; i < 72; i++) {
             const angle = i * 5;
 
-            const emitter = spark0.createEmitter({
+            this.particle.createEmitter({
                 x: GameConstants.GAME_CENTER_X,
                 y: GameConstants.GAME_CENTER_Y,
                 angle: { min: angle - 2, max: angle + 2 },
@@ -64,15 +75,6 @@ export class GameScene extends Phaser.Scene {
                 blendMode: 'SCREEN',
                 maxParticles: 5,
             });
-            emitter.stop();
-
-            this.fireworkEmitter.push(emitter);
         }
-    }
-
-    private startFireworkEffect(): void {
-        this.fireworkEmitter.forEach((emitter) => {
-            emitter.start();
-        });
     }
 }
