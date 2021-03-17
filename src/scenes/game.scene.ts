@@ -72,10 +72,10 @@ export class GameScene extends Phaser.Scene {
                 angle: { min: angle - 2, max: angle + 2 },
                 speed: { min: 100, max: 350 },
                 scale: { start: 0.8, end: 0.6 },
-                alpha: { start: 1, end: 0.1, ease: 'Cubic.easeIn' },
+                alpha: { start: 0.8, end: 0.0, ease: 'Quint.easeIn' },
                 blendMode: 'SCREEN',
                 maxParticles: 5,
-                lifespan: 1800,
+                lifespan: 2200,
             });
         }
     }
