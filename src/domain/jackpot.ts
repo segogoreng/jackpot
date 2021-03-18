@@ -12,6 +12,7 @@ export class Jackpot {
     private numOfBoxes: number;
     private numOfBoxOpenned: number;
     private openBoxes: number[];
+    private prizeCounter: number;
 
     constructor(prizes: readonly number[], prizeReceivedIndex: number, numOfBoxes: number) {
         this.prizes = prizes;
@@ -19,16 +20,22 @@ export class Jackpot {
         this.prizeReceived = prizes[prizeReceivedIndex];
         this.numOfBoxes = numOfBoxes;
         this.numOfBoxOpenned = this.randomizeNumOfBoxOpenned();
+        this.prizeCounter = 0;
 
         this.generateOpenBoxesData();
     }
 
-    getPrize(openIndex: number) {
-        if (openIndex < 0 || openIndex >= this.numOfBoxOpenned) {
-            return null;
-        }
+    getNextPrize(): number {
+        if (this.prizeCounter >= this.numOfBoxOpenned) return null;
+        return this.openBoxes[this.prizeCounter++];
+    }
 
-        return this.openBoxes[openIndex];
+    getNumOfBoxOpenned(): number {
+        return this.numOfBoxOpenned;
+    }
+
+    isWinning(): boolean {
+        return this.prizeCounter === this.numOfBoxOpenned;
     }
 
     private randomizeNumOfBoxOpenned(): number {
