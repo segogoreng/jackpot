@@ -1,5 +1,5 @@
 import 'phaser';
-import { GameConfig } from './game.config';
+import { GameConfig } from './infrastructure/config/game.config';
 
 window.onload = () => {
     new Phaser.Game(GameConfig);

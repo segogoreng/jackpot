@@ -1,5 +1,5 @@
 import 'phaser';
-import { GameConstants } from '../constants/game.constants';
+import { DisplayConstants } from '../../constants/display.constants';
 
 export class GameScene extends Phaser.Scene {
     private giftbox: Phaser.GameObjects.Sprite;
@@ -17,7 +17,7 @@ export class GameScene extends Phaser.Scene {
     }
 
     create(): void {
-        this.add.image(GameConstants.GAME_CENTER_X, GameConstants.GAME_CENTER_Y, 'background');
+        this.add.image(DisplayConstants.GAME_CENTER_X, DisplayConstants.GAME_CENTER_Y, 'background');
 
         this.initializeGiftbox();
         this.initializeFireworkEffect();
@@ -28,7 +28,7 @@ export class GameScene extends Phaser.Scene {
     update(): void {}
 
     private initializeGiftbox(): void {
-        this.giftbox = this.add.sprite(GameConstants.GAME_CENTER_X, GameConstants.GAME_CENTER_Y, 'giftbox');
+        this.giftbox = this.add.sprite(DisplayConstants.GAME_CENTER_X, DisplayConstants.GAME_CENTER_Y, 'giftbox');
         this.giftbox.scale = 0.5;
         this.giftbox.scaleX = 0.85;
         this.giftbox.setDepth(1);
@@ -67,8 +67,8 @@ export class GameScene extends Phaser.Scene {
             const angle = i * 5;
 
             this.particle.createEmitter({
-                x: GameConstants.GAME_CENTER_X,
-                y: GameConstants.GAME_CENTER_Y,
+                x: DisplayConstants.GAME_CENTER_X,
+                y: DisplayConstants.GAME_CENTER_Y,
                 angle: { min: angle - 2, max: angle + 2 },
                 speed: { min: 100, max: 350 },
                 scale: { start: 0.8, end: 0.6 },
