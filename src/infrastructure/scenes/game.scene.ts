@@ -54,7 +54,7 @@ export class GameScene extends Phaser.Scene {
                 const giftbox = new GiftBoxView(this, x, y);
 
                 giftbox.getSprite().on('pointerdown', () => {
-                    if (!this.jackpot.isWinning()) {
+                    if (!this.jackpot.isWinning() && !giftbox.isPrizeSet()) {
                         const prize = this.jackpot.getNextPrize();
                         giftbox.setPrize(prize);
                         if (this.jackpot.isWinning()) {
