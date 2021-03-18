@@ -1,8 +1,10 @@
 import { Random } from '../lib/random';
+import { Utils } from './utils';
 const random: Random = require('../lib/random');
 
 export class Jackpot {
     private static readonly MIN_NUM_OF_BOXES_OPENNED = 2;
+    private static readonly JACKPOT_DISPLAYED_PROBABILITY = 0.8;
 
     private prizes: readonly number[];
     private prizeReceivedIndex: number;
@@ -22,7 +24,7 @@ export class Jackpot {
     }
 
     getPrize(openIndex: number) {
-        if (openIndex > this.numOfBoxOpenned) {
+        if (openIndex < 0 || openIndex >= this.numOfBoxOpenned) {
             return null;
         }
 
@@ -42,9 +44,34 @@ export class Jackpot {
     }
 
     private generateOpenBoxesData() {
-        const lastIndex = this.numOfBoxOpenned - 1;
-        this.openBoxes = new Array(this.numOfBoxOpenned);
+        this.openBoxes = [];
+        this.openBoxes.push(this.prizeReceived);
+        const prizesRemaining = this.prizes.filter((prize) => prize !== this.prizeReceived);
+        let remainingToBeFilled = this.numOfBoxOpenned - 2;
+        const jackpot = prizesRemaining.pop();
 
-        this.openBoxes[lastIndex] = this.prizeReceived;
+        if (remainingToBeFilled > 0 && this.isJackpotDisplayed()) {
+            this.openBoxes.push(jackpot);
+            remainingToBeFilled--;
+        }
+
+        for (let i = 0; i < remainingToBeFilled; i++) {
+            const pickedIndex = random.int(0, prizesRemaining.length - 1);
+            const pickedPrize = prizesRemaining.splice(pickedIndex, 1);
+            this.openBoxes.push(...pickedPrize);
+        }
+
+        Utils.shuffleArray(this.openBoxes);
+        this.openBoxes.push(this.prizeReceived);
+    }
+
+    private isJackpotDisplayed(): boolean {
+        if (this.isJackpotReceived()) return false;
+        if (Math.random() <= Jackpot.JACKPOT_DISPLAYED_PROBABILITY) return true;
+        return false;
+    }
+
+    private isJackpotReceived(): boolean {
+        return this.prizeReceivedIndex === this.prizes.length - 1;
     }
 }
