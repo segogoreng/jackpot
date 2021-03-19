@@ -1,4 +1,4 @@
-import { IRandom } from './random.interface';
+import { IRandom } from './random-interface';
 import { Utils } from './utils';
 
 export class Jackpot {

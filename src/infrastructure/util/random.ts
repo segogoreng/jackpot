@@ -1,4 +1,4 @@
-import { IRandom } from '../../domain/random.interface';
+import { IRandom } from '../../domain/random-interface';
 import { Random as RandomLib } from '../../lib/random';
 const randomLib: RandomLib = require('../../lib/random');
 
