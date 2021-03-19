@@ -4,6 +4,7 @@ import { GameConstants } from '../../constants/game.constants';
 import { Jackpot } from '../../domain/jackpot';
 import { GiftBoxView } from '../components/giftbox.view';
 import { JackpotService } from '../services/jackpot.service';
+import { Random } from '../util/random';
 
 export class GameScene extends Phaser.Scene {
     private jackpot: Jackpot;
@@ -27,7 +28,7 @@ export class GameScene extends Phaser.Scene {
 
     async create() {
         const prizeIndex = await this.jackpotService.getPrize();
-        this.jackpot = new Jackpot(GameConstants.PRIZES, prizeIndex, GameConstants.NUM_OF_BOXES);
+        this.jackpot = new Jackpot(new Random(), GameConstants.PRIZES, prizeIndex, GameConstants.NUM_OF_BOXES);
 
         this.add.image(DisplayConstants.GAME_CENTER_X, DisplayConstants.GAME_CENTER_Y, 'background');
         this.initializeGiftBoxes();

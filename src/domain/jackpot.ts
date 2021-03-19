@@ -1,11 +1,11 @@
-import { Random } from '../lib/random';
+import { IRandom } from './random.interface';
 import { Utils } from './utils';
-const random: Random = require('../lib/random');
 
 export class Jackpot {
     private static readonly MIN_NUM_OF_BOXES_OPENNED = 2;
     private static readonly JACKPOT_DISPLAYED_PROBABILITY = 0.8;
 
+    private random: IRandom;
     private prizes: readonly number[];
     private prizeReceivedIndex: number;
     private prizeReceived: number;
@@ -14,7 +14,8 @@ export class Jackpot {
     private openBoxes: number[];
     private prizeCounter: number;
 
-    constructor(prizes: readonly number[], prizeReceivedIndex: number, numOfBoxes: number) {
+    constructor(random: IRandom, prizes: readonly number[], prizeReceivedIndex: number, numOfBoxes: number) {
+        this.random = random;
         this.prizes = prizes;
         this.prizeReceivedIndex = prizeReceivedIndex;
         this.prizeReceived = prizes[prizeReceivedIndex];
@@ -41,7 +42,7 @@ export class Jackpot {
     private randomizeNumOfBoxOpenned(): number {
         const mean = (this.numOfBoxes + Jackpot.MIN_NUM_OF_BOXES_OPENNED) / 2;
         const standardDeviation = (this.numOfBoxes - mean) / 2;
-        const normalRandom = random.normal(mean, standardDeviation);
+        const normalRandom = this.random.normal(mean, standardDeviation);
 
         let result = Math.round(normalRandom());
         result = Math.min(result, this.numOfBoxes);
@@ -63,7 +64,7 @@ export class Jackpot {
         }
 
         for (let i = 0; i < remainingToBeFilled; i++) {
-            const pickedIndex = random.int(0, prizesRemaining.length - 1);
+            const pickedIndex = this.random.int(0, prizesRemaining.length - 1);
             const pickedPrize = prizesRemaining.splice(pickedIndex, 1);
             this.openBoxes.push(...pickedPrize);
         }
