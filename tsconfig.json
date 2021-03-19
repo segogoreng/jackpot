@@ -1,9 +1,40 @@
 {
     "compilerOptions": {
-        "target": "es5",
+        "target": "ES2017",
         "sourceMap": true,
+        "module": "commonjs",
+        "lib": ["es6", "DOM"],
+        "outDir": "dist",
+        "moduleResolution": "node",
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "preserveConstEnums": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "rootDirs": ["."],
+        "baseUrl": ".",
+        "forceConsistentCasingInFileNames": true,
+        "paths": {
+            "Config/*": ["src/config/*", "dist/config/*"],
+            "Controllers/*": ["src/controllers/*", "dist/controllers/*"],
+            "Events/*": ["src/events/*", "dist/events/*"],      
+            "Externals/*": ["src/externals/*", "dist/externals/*"],
+            "Models/*": ["src/models/*", "dist/models/*"],
+            "Handlers/*": ["src/handlers/*", "dist/handlers/*"],
+            "Libraries/*": ["src/libraries/*", "dist/libraries/*"],
+            "Listeners/*": ["src/listeners/*", "dist/listeners/*"],
+            "Helpers/*": ["src/helpers/*", "dist/helpers/*"],
+            "Middleware/*": ["src/middleware/*", "dist/middleware/*"],
+            "Routes/*": ["src/routes/*", "dist/routes/*"],
+            "Repositories/*": ["src/repositories/*", "dist/repositories/*"],
+            "Validators/*": ["src/validators/*", "dist/validators/*"],
+            "Views/*": ["src/views/*", "dist/views/*"],
+            "Queues/*": ["src/queues/*", "dist/queues/*"],
+            "Jobs/*": ["src/jobs/*", "dist/jobs/*"]
+        },
+        "skipLibCheck": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true
     },
-    "include": [
-        "src/**/*"
-    ],
+    "include": ["src/**/*", "__tests__/**/*"]
 }
