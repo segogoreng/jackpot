@@ -26,16 +26,16 @@ export class Jackpot {
         this.generateOpenBoxesData();
     }
 
-    getNextPrize(): number {
+    public getNextPrize(): number {
         if (this.prizeCounter >= this.numOfBoxOpenned) return null;
         return this.openBoxes[this.prizeCounter++];
     }
 
-    getNumOfBoxOpenned(): number {
+    public getNumOfBoxOpenned(): number {
         return this.numOfBoxOpenned;
     }
 
-    isWinning(): boolean {
+    public isWinning(): boolean {
         return this.prizeCounter === this.numOfBoxOpenned;
     }
 

@@ -20,13 +20,13 @@ export class GameScene extends Phaser.Scene {
         this.jackpotService = new JackpotService();
     }
 
-    preload(): void {
+    public preload(): void {
         this.load.image('background', 'assets/images/sky.jpg');
         this.load.image('giftbox', 'assets/images/giftbox.jpg');
         this.load.image('particle', 'assets/images/white.png');
     }
 
-    async create() {
+    public async create() {
         const prizeIndex = await this.jackpotService.getPrize();
         this.jackpot = new Jackpot(new Random(), GameConstants.PRIZES, prizeIndex, GameConstants.NUM_OF_BOXES);
 
@@ -43,7 +43,7 @@ export class GameScene extends Phaser.Scene {
         this.text.setDepth(2);
     }
 
-    update(): void {}
+    public update(): void {}
 
     private initializeGiftBoxes() {
         this.giftboxes = [];

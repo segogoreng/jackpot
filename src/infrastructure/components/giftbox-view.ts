@@ -20,18 +20,18 @@ export class GiftBoxView {
         this.prizeSet = false;
     }
 
-    getSprite(): Phaser.GameObjects.Sprite {
+    public getSprite(): Phaser.GameObjects.Sprite {
         return this.sprite;
     }
 
-    setPrize(prize: number) {
+    public setPrize(prize: number) {
         if (!this.prizeSet) {
             this.text.setText(prize.toString());
             this.prizeSet = true;
         }
     }
 
-    isPrizeSet(): boolean {
+    public isPrizeSet(): boolean {
         return this.prizeSet;
     }
 }

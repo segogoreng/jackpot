@@ -1,5 +1,5 @@
 export class Utils {
-    static shuffleArray(array: any[]): any[] {
+    public static shuffleArray(array: any[]): any[] {
         let currentIndex = array.length;
         let randomIndex;
 
