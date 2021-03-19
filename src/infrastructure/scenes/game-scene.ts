@@ -10,8 +10,8 @@ export class GameScene extends Phaser.Scene {
     private jackpot: Jackpot;
     private jackpotService: JackpotService;
     private giftboxes: GiftBoxView[];
-    private particle: Phaser.GameObjects.Particles.ParticleEmitterManager;
-    private animating = false;
+    // private particle: Phaser.GameObjects.Particles.ParticleEmitterManager;
+    // private animating = false;
     private text: Phaser.GameObjects.Text;
 
     constructor() {
@@ -73,45 +73,45 @@ export class GameScene extends Phaser.Scene {
         this.text.setText(`You win ${prize} coins`);
     }
 
-    private startGiftboxAnimation(): void {
-        if (!this.animating) {
-            this.animating = true;
-            let ctr = 0;
-            this.tweens.add({
-                targets: [this.giftboxes[0].getSprite()],
-                repeat: 2,
-                duration: 450,
-                yoyo: true,
-                ease: 'Quad.easeIn',
-                scaleX: 0,
-                onYoyo: () => {
-                    ctr++;
-                    if (ctr == 3) {
-                        this.startFireworkEffect();
-                    }
-                },
-                onComplete: () => {
-                    this.animating = false;
-                },
-            });
-        }
-    }
+    // private startGiftboxAnimation(): void {
+    //     if (!this.animating) {
+    //         this.animating = true;
+    //         let ctr = 0;
+    //         this.tweens.add({
+    //             targets: [this.giftboxes[0].getSprite()],
+    //             repeat: 2,
+    //             duration: 450,
+    //             yoyo: true,
+    //             ease: 'Quad.easeIn',
+    //             scaleX: 0,
+    //             onYoyo: () => {
+    //                 ctr++;
+    //                 if (ctr == 3) {
+    //                     this.startFireworkEffect();
+    //                 }
+    //             },
+    //             onComplete: () => {
+    //                 this.animating = false;
+    //             },
+    //         });
+    //     }
+    // }
 
-    private startFireworkEffect(): void {
-        for (let i = 0; i < 72; i++) {
-            const angle = i * 5;
+    // private startFireworkEffect(): void {
+    //     for (let i = 0; i < 72; i++) {
+    //         const angle = i * 5;
 
-            this.particle.createEmitter({
-                x: DisplayConstants.GAME_CENTER_X,
-                y: DisplayConstants.GAME_CENTER_Y,
-                angle: { min: angle - 2, max: angle + 2 },
-                speed: { min: 100, max: 350 },
-                scale: { start: 0.8, end: 0.6 },
-                alpha: { start: 0.8, end: 0.0, ease: 'Quint.easeIn' },
-                blendMode: 'SCREEN',
-                maxParticles: 5,
-                lifespan: 2200,
-            });
-        }
-    }
+    //         this.particle.createEmitter({
+    //             x: DisplayConstants.GAME_CENTER_X,
+    //             y: DisplayConstants.GAME_CENTER_Y,
+    //             angle: { min: angle - 2, max: angle + 2 },
+    //             speed: { min: 100, max: 350 },
+    //             scale: { start: 0.8, end: 0.6 },
+    //             alpha: { start: 0.8, end: 0.0, ease: 'Quint.easeIn' },
+    //             blendMode: 'SCREEN',
+    //             maxParticles: 5,
+    //             lifespan: 2200,
+    //         });
+    //     }
+    // }
 }
