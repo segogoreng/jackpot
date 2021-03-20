@@ -11,6 +11,7 @@ module.exports = {
         ]
     },
     resolve: {
+        mainFields: ['browser', 'main', 'module'],
         extensions: [ '.ts', '.tsx', '.js' ]
     },
     output: {
