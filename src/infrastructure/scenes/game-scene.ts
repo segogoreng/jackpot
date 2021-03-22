@@ -48,13 +48,21 @@ export class GameScene extends Phaser.Scene {
         this.add.image(DisplayConstants.GAME_CENTER_X, DisplayConstants.GAME_CENTER_Y, 'background');
         this.initializeGiftBoxes();
 
-        this.text = this.add.text(DisplayConstants.GAME_CENTER_X, DisplayConstants.GAME_HEIGHT - 30, 'CLICK TO OPEN', {
-            fontSize: '40px',
+        this.text = this.add.text(DisplayConstants.GAME_CENTER_X, DisplayConstants.GAME_CENTER_Y, 'CLICK TO OPEN', {
+            fontSize: '60px',
             align: 'center',
             color: 'black',
         });
         this.text.setOrigin(0.5);
         this.text.setDepth(1);
+        this.tweens.add({
+            targets: [this.text],
+            duration: 400,
+            scale: 1.3,
+            ease: 'Sine.easeOut',
+            yoyo: true,
+            repeat: -1,
+        });
 
         this.backdrop = new BackdropView(this);
     }
@@ -71,17 +79,18 @@ export class GameScene extends Phaser.Scene {
                 const giftbox = new GiftBoxView(this, x, y, () => {
                     this.openingBox = false;
                     this.backdrop.hide();
+                    if (this.jackpot.isWinning()) {
+                        this.win(giftbox.getPrize());
+                    }
                 });
 
                 giftbox.getBoxSprite().on('pointerdown', () => {
                     if (!this.openingBox && !this.jackpot.isWinning() && !giftbox.isPrizeSet()) {
+                        this.text.visible = false;
                         this.openingBox = true;
                         this.backdrop.show();
                         const prize = this.jackpot.getNextPrize();
                         giftbox.setPrize(prize);
-                        if (this.jackpot.isWinning()) {
-                            this.win(prize);
-                        }
                     }
                 });
 
@@ -92,5 +101,6 @@ export class GameScene extends Phaser.Scene {
 
     private win(prize: number): void {
         this.text.setText(`You win ${prize} coins`);
+        this.text.visible = true;
     }
 }

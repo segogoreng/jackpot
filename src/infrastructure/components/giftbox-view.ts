@@ -15,6 +15,7 @@ export class GiftBoxView {
     private particles: Phaser.GameObjects.Particles.ParticleEmitterManager;
     private boxSprite: Phaser.GameObjects.Sprite;
     private prizeSprite: Phaser.GameObjects.Sprite;
+    private prize: number;
     private prizeSet: boolean;
     private vibratingAnimation: Phaser.Tweens.Tween;
 
@@ -39,9 +40,15 @@ export class GiftBoxView {
         return this.boxSprite;
     }
 
+    public getPrize(): number {
+        if (!this.prizeSet) return null;
+        return this.prize;
+    }
+
     public setPrize(prize: number) {
         if (!this.prizeSet) {
             this.prizeSet = true;
+            this.prize = prize;
             this.startOpeningPrizeAnimation(prize);
         }
     }
