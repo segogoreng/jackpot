@@ -1,4 +1,5 @@
 const path = require('path');
+
 module.exports = {
     entry: './src/game.ts',
     module: {
@@ -11,6 +12,11 @@ module.exports = {
         ]
     },
     resolve: {
+        alias: {
+            Constants: path.resolve(__dirname, 'src/constants/'),
+            Domain: path.resolve(__dirname, 'src/domain/'),
+            Infrastructure: path.resolve(__dirname, 'src/infrastructure/'),
+        },
         mainFields: ['browser', 'main', 'module'],
         extensions: [ '.ts', '.tsx', '.js' ]
     },
