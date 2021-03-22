@@ -4,22 +4,27 @@ import { GameConstants } from 'Constants/game-constants';
 import { Jackpot } from 'Domain/jackpot';
 import { GiftBoxView } from 'Infrastructure/components/giftbox-view';
 import { JackpotService } from 'Infrastructure/services/jackpot-service';
+import { BackdropView } from 'Infrastructure/components/backdrop-view';
 
 export class GameScene extends Phaser.Scene {
     private jackpot: Jackpot;
     private jackpotService: JackpotService;
     private backgroundMusic: Phaser.Sound.BaseSound;
+    private backdrop: BackdropView;
     private giftboxes: GiftBoxView[];
     private text: Phaser.GameObjects.Text;
+    private openingBox: boolean;
 
     constructor() {
         super({ key: 'GameScene' });
 
         this.jackpotService = new JackpotService();
+        this.openingBox = false;
     }
 
     public preload(): void {
         this.load.image('background', 'assets/images/sky.jpg');
+        this.load.image('backdrop', 'assets/images/backdrop.png');
         this.load.image('giftbox', 'assets/images/giftbox.jpg');
         this.load.image('particle', 'assets/images/white.png');
 
@@ -49,7 +54,9 @@ export class GameScene extends Phaser.Scene {
             color: 'black',
         });
         this.text.setOrigin(0.5);
-        this.text.setDepth(2);
+        this.text.setDepth(1);
+
+        this.backdrop = new BackdropView(this);
     }
 
     public update(): void {}
@@ -61,10 +68,15 @@ export class GameScene extends Phaser.Scene {
             for (let col = 0; col < GameConstants.BOX_COLS; col++) {
                 const x = (DisplayConstants.GAME_WIDTH / GameConstants.BOX_COLS / 2) * (col * 2 + 1);
                 const y = (DisplayConstants.GAME_HEIGHT / GameConstants.BOX_ROWS / 2) * (row * 2 + 1);
-                const giftbox = new GiftBoxView(this, x, y);
+                const giftbox = new GiftBoxView(this, x, y, () => {
+                    this.openingBox = false;
+                    this.backdrop.hide();
+                });
 
                 giftbox.getBoxSprite().on('pointerdown', () => {
-                    if (!this.jackpot.isWinning() && !giftbox.isPrizeSet()) {
+                    if (!this.openingBox && !this.jackpot.isWinning() && !giftbox.isPrizeSet()) {
+                        this.openingBox = true;
+                        this.backdrop.show();
                         const prize = this.jackpot.getNextPrize();
                         giftbox.setPrize(prize);
                         if (this.jackpot.isWinning()) {

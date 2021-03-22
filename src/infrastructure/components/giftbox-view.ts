@@ -1,4 +1,5 @@
 import { DisplayConstants } from 'Constants/display-constants';
+import { OnCompleteAnimation } from 'Infrastructure/components/on-complete-animation';
 import { Random } from 'random';
 const random: Random = require('random');
 
@@ -8,17 +9,23 @@ export class GiftBoxView {
     private static readonly NUM_OF_EMITTER_FOR_FIREWORK_EFFECT = 72;
 
     private scene: Phaser.Scene;
+    private x: number;
+    private y: number;
+    private onCompleteAnimation: OnCompleteAnimation;
     private particles: Phaser.GameObjects.Particles.ParticleEmitterManager;
     private boxSprite: Phaser.GameObjects.Sprite;
     private prizeSprite: Phaser.GameObjects.Sprite;
     private prizeSet: boolean;
     private vibratingAnimation: Phaser.Tweens.Tween;
 
-    constructor(scene: Phaser.Scene, x: number, y: number) {
+    constructor(scene: Phaser.Scene, x: number, y: number, onCompleteAnimation: OnCompleteAnimation) {
         this.scene = scene;
+        this.x = x;
+        this.y = y;
+        this.onCompleteAnimation = onCompleteAnimation;
 
         this.particles = scene.add.particles('particle');
-        this.particles.setDepth(1);
+        this.particles.setDepth(2);
 
         this.boxSprite = scene.add.sprite(x, y, 'giftbox').setInteractive();
         this.boxSprite.scale = GiftBoxView.SPRITE_SCALE;
@@ -64,7 +71,7 @@ export class GiftBoxView {
     }
 
     private startBoxGoesCenterAnimation(prize: number): Phaser.Tweens.Tween {
-        this.boxSprite.setDepth(2);
+        this.boxSprite.setDepth(3);
 
         return this.scene.tweens.add({
             targets: [this.boxSprite],
@@ -106,13 +113,16 @@ export class GiftBoxView {
         this.prizeSprite = this.scene.add.sprite(this.boxSprite.x, this.boxSprite.y, prize.toString());
         this.prizeSprite.scaleX = 0;
         this.prizeSprite.scaleY = GiftBoxView.SPRITE_SCALE_BIG;
-        this.prizeSprite.setDepth(2);
+        this.prizeSprite.setDepth(3);
 
         return this.scene.tweens.add({
             targets: [this.prizeSprite],
             duration: 450,
             ease: 'Quad.easeOut',
             scaleX: GiftBoxView.SPRITE_SCALE_BIG,
+            onComplete: () => {
+                this.startBoxGoBackAnimation();
+            },
         });
     }
 
@@ -132,5 +142,21 @@ export class GiftBoxView {
                 lifespan: 1300,
             });
         }
+    }
+
+    private startBoxGoBackAnimation() {
+        return this.scene.tweens.add({
+            targets: [this.prizeSprite],
+            delay: 2000,
+            duration: 1000,
+            ease: 'Cubic.easeOut',
+            scale: GiftBoxView.SPRITE_SCALE,
+            x: this.x,
+            y: this.y,
+            onComplete: () => {
+                this.prizeSprite.setDepth(0);
+                this.onCompleteAnimation();
+            },
+        });
     }
 }
