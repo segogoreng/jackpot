@@ -1,10 +1,14 @@
+import { DisplayConstants } from 'Constants/display-constants';
 import { Random } from 'random';
 const random: Random = require('random');
 
 export class GiftBoxView {
     private static readonly SPRITE_SCALE = 0.3;
+    private static readonly SPRITE_SCALE_BIG = 0.7;
+    private static readonly NUM_OF_EMITTER_FOR_FIREWORK_EFFECT = 72;
 
     private scene: Phaser.Scene;
+    private particles: Phaser.GameObjects.Particles.ParticleEmitterManager;
     private boxSprite: Phaser.GameObjects.Sprite;
     private prizeSprite: Phaser.GameObjects.Sprite;
     private prizeSet: boolean;
@@ -13,9 +17,11 @@ export class GiftBoxView {
     constructor(scene: Phaser.Scene, x: number, y: number) {
         this.scene = scene;
 
+        this.particles = scene.add.particles('particle');
+        this.particles.setDepth(1);
+
         this.boxSprite = scene.add.sprite(x, y, 'giftbox').setInteractive();
         this.boxSprite.scale = GiftBoxView.SPRITE_SCALE;
-        this.boxSprite.setDepth(1);
 
         this.prizeSet = false;
 
@@ -37,10 +43,6 @@ export class GiftBoxView {
         return this.prizeSet;
     }
 
-    public stopVibratingAnimation(): void {
-        this.vibratingAnimation.stop();
-    }
-
     private startVibratingAnimation() {
         this.vibratingAnimation = this.scene.tweens.add({
             targets: [this.boxSprite],
@@ -52,32 +54,83 @@ export class GiftBoxView {
         });
     }
 
-    private startOpeningPrizeAnimation(prize: number): void {
-        this.startBoxGoneAnimation(prize);
+    private stopVibratingAnimation(): void {
+        this.vibratingAnimation.stop();
     }
 
-    private startBoxGoneAnimation(prize: number): Phaser.Tweens.Tween {
+    private startOpeningPrizeAnimation(prize: number): void {
+        this.stopVibratingAnimation();
+        this.startBoxGoesCenterAnimation(prize);
+    }
+
+    private startBoxGoesCenterAnimation(prize: number): Phaser.Tweens.Tween {
+        this.boxSprite.setDepth(2);
+
         return this.scene.tweens.add({
             targets: [this.boxSprite],
-            duration: 300,
-            ease: 'Quad.easeOut',
-            scaleX: 0,
+            duration: 1000,
+            ease: 'Cubic.easeOut',
+            scale: GiftBoxView.SPRITE_SCALE_BIG,
+            x: DisplayConstants.GAME_CENTER_X,
+            y: DisplayConstants.GAME_CENTER_Y,
             onComplete: () => {
-                this.startPrizeDisplayAnimation(prize);
+                this.startBoxAboutToOpenAnimation(prize);
             },
         });
     }
 
-    private startPrizeDisplayAnimation(prize: number): Phaser.Tweens.Tween {
+    private startBoxAboutToOpenAnimation(prize: number): Phaser.Tweens.Tween {
+        let ctr = 0;
+        const tween = this.scene.tweens.add({
+            targets: [this.boxSprite],
+            repeat: 2,
+            duration: 450,
+            yoyo: true,
+            ease: 'Quad.easeIn',
+            scaleX: 0,
+            onYoyo: () => {
+                ctr++;
+                if (ctr === 3) {
+                    tween.stop();
+                    this.boxSprite.destroy();
+                    this.startPrizeRevealingAnimation(prize);
+                    this.startFireworkEffect();
+                }
+            },
+        });
+
+        return tween;
+    }
+
+    private startPrizeRevealingAnimation(prize: number): Phaser.Tweens.Tween {
         this.prizeSprite = this.scene.add.sprite(this.boxSprite.x, this.boxSprite.y, prize.toString());
         this.prizeSprite.scaleX = 0;
-        this.prizeSprite.scaleY = GiftBoxView.SPRITE_SCALE;
+        this.prizeSprite.scaleY = GiftBoxView.SPRITE_SCALE_BIG;
+        this.prizeSprite.setDepth(2);
 
         return this.scene.tweens.add({
             targets: [this.prizeSprite],
-            duration: 300,
-            ease: 'Quad.easeIn',
-            scaleX: GiftBoxView.SPRITE_SCALE,
+            duration: 450,
+            ease: 'Quad.easeOut',
+            scaleX: GiftBoxView.SPRITE_SCALE_BIG,
         });
+    }
+
+    private startFireworkEffect(): void {
+        for (let i = 0; i < GiftBoxView.NUM_OF_EMITTER_FOR_FIREWORK_EFFECT; i++) {
+            const angle = i * (360 / GiftBoxView.NUM_OF_EMITTER_FOR_FIREWORK_EFFECT);
+
+            this.particles.createEmitter({
+                x: DisplayConstants.GAME_CENTER_X,
+                y: DisplayConstants.GAME_CENTER_Y,
+                angle: { min: angle - 2, max: angle + 2 },
+                speed: { min: 250, max: 500 },
+                scale: { start: 1.5, end: 0.5, ease: 'Quad.easeIn' },
+                alpha: { start: 1, end: 0.0, ease: 'Quint.easeIn' },
+                blendMode: 'ADD',
+                maxParticles: 3,
+                lifespan: 1300,
+            });
+        }
     }
 }
