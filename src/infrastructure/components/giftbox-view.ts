@@ -1,3 +1,6 @@
+import { Random } from 'random';
+const random: Random = require('random');
+
 export class GiftBoxView {
     private static readonly SPRITE_SCALE = 0.3;
 
@@ -5,6 +8,7 @@ export class GiftBoxView {
     private boxSprite: Phaser.GameObjects.Sprite;
     private prizeSprite: Phaser.GameObjects.Sprite;
     private prizeSet: boolean;
+    private vibratingAnimation: Phaser.Tweens.Tween;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
         this.scene = scene;
@@ -14,6 +18,8 @@ export class GiftBoxView {
         this.boxSprite.setDepth(1);
 
         this.prizeSet = false;
+
+        this.startVibratingAnimation();
     }
 
     public getBoxSprite(): Phaser.GameObjects.Sprite {
@@ -29,6 +35,21 @@ export class GiftBoxView {
 
     public isPrizeSet(): boolean {
         return this.prizeSet;
+    }
+
+    public stopVibratingAnimation(): void {
+        this.vibratingAnimation.stop();
+    }
+
+    private startVibratingAnimation() {
+        this.vibratingAnimation = this.scene.tweens.add({
+            targets: [this.boxSprite],
+            delay: random.int(0, 500),
+            duration: 60,
+            y: this.boxSprite.y + 3,
+            yoyo: true,
+            repeat: -1,
+        });
     }
 
     private startOpeningPrizeAnimation(prize: number): void {
