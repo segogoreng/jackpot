@@ -8,6 +8,7 @@ import { JackpotService } from 'Infrastructure/services/jackpot-service';
 export class GameScene extends Phaser.Scene {
     private jackpot: Jackpot;
     private jackpotService: JackpotService;
+    private backgroundMusic: Phaser.Sound.BaseSound;
     private giftboxes: GiftBoxView[];
     private text: Phaser.GameObjects.Text;
 
@@ -25,9 +26,17 @@ export class GameScene extends Phaser.Scene {
         GameConstants.PRIZES.forEach((prize) => {
             this.load.image(prize.toString(), `assets/images/${prize}.jpg`);
         });
+
+        this.load.audio('background-music', 'assets/audio/background-music.mp3');
     }
 
     public async create() {
+        this.backgroundMusic = this.sound.add('background-music', {
+            loop: true,
+            volume: 0.5,
+        });
+        this.backgroundMusic.play();
+
         const prizeIndex = await this.jackpotService.getPrize();
         this.jackpot = new Jackpot(GameConstants.PRIZES, prizeIndex, GameConstants.NUM_OF_BOXES);
 
