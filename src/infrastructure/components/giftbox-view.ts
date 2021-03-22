@@ -1,37 +1,62 @@
 export class GiftBoxView {
-    private sprite: Phaser.GameObjects.Sprite;
-    private text: Phaser.GameObjects.Text;
+    private static readonly SPRITE_SCALE = 0.3;
+
+    private scene: Phaser.Scene;
+    private boxSprite: Phaser.GameObjects.Sprite;
+    private prizeSprite: Phaser.GameObjects.Sprite;
     private prizeSet: boolean;
 
     constructor(scene: Phaser.Scene, x: number, y: number) {
-        this.sprite = scene.add.sprite(x, y, 'giftbox').setInteractive();
-        this.sprite.scale = 0.25;
-        this.sprite.scaleX = 0.4;
-        this.sprite.setDepth(1);
+        this.scene = scene;
 
-        this.text = scene.add.text(x, y, '', {
-            fontSize: '64px',
-            align: 'center',
-            color: 'black',
-        });
-        this.text.setOrigin(0.5);
-        this.text.setDepth(2);
+        this.boxSprite = scene.add.sprite(x, y, 'giftbox').setInteractive();
+        this.boxSprite.scale = GiftBoxView.SPRITE_SCALE;
+        this.boxSprite.setDepth(1);
 
         this.prizeSet = false;
     }
 
-    public getSprite(): Phaser.GameObjects.Sprite {
-        return this.sprite;
+    public getBoxSprite(): Phaser.GameObjects.Sprite {
+        return this.boxSprite;
     }
 
     public setPrize(prize: number) {
         if (!this.prizeSet) {
-            this.text.setText(prize.toString());
             this.prizeSet = true;
+            this.startOpeningPrizeAnimation(prize);
         }
     }
 
     public isPrizeSet(): boolean {
         return this.prizeSet;
+    }
+
+    private startOpeningPrizeAnimation(prize: number): void {
+        this.startBoxGoneAnimation(prize);
+    }
+
+    private startBoxGoneAnimation(prize: number): Phaser.Tweens.Tween {
+        return this.scene.tweens.add({
+            targets: [this.boxSprite],
+            duration: 300,
+            ease: 'Quad.easeOut',
+            scaleX: 0,
+            onComplete: () => {
+                this.startPrizeDisplayAnimation(prize);
+            },
+        });
+    }
+
+    private startPrizeDisplayAnimation(prize: number): Phaser.Tweens.Tween {
+        this.prizeSprite = this.scene.add.sprite(this.boxSprite.x, this.boxSprite.y, prize.toString());
+        this.prizeSprite.scaleX = 0;
+        this.prizeSprite.scaleY = GiftBoxView.SPRITE_SCALE;
+
+        return this.scene.tweens.add({
+            targets: [this.prizeSprite],
+            duration: 300,
+            ease: 'Quad.easeIn',
+            scaleX: GiftBoxView.SPRITE_SCALE,
+        });
     }
 }

@@ -21,6 +21,10 @@ export class GameScene extends Phaser.Scene {
         this.load.image('background', 'assets/images/sky.jpg');
         this.load.image('giftbox', 'assets/images/giftbox.jpg');
         this.load.image('particle', 'assets/images/white.png');
+
+        GameConstants.PRIZES.forEach((prize) => {
+            this.load.image(prize.toString(), `assets/images/${prize}.jpg`);
+        });
     }
 
     public async create() {
@@ -50,7 +54,7 @@ export class GameScene extends Phaser.Scene {
                 const y = (DisplayConstants.GAME_HEIGHT / GameConstants.BOX_ROWS / 2) * (row * 2 + 1);
                 const giftbox = new GiftBoxView(this, x, y);
 
-                giftbox.getSprite().on('pointerdown', () => {
+                giftbox.getBoxSprite().on('pointerdown', () => {
                     if (!this.jackpot.isWinning() && !giftbox.isPrizeSet()) {
                         const prize = this.jackpot.getNextPrize();
                         giftbox.setPrize(prize);
