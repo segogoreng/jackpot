@@ -3,12 +3,12 @@ import { DisplayConstants } from 'Config/display-constants';
 import { GameConstants } from 'Config/game-constants';
 import { Jackpot } from 'Models/jackpot';
 import { GiftBoxView } from 'Views/components/giftbox-view';
-import { JackpotService } from 'Views/services/jackpot-service';
+import { GetPrizeHandler } from 'Handlers/get-prize-handler';
 import { BackdropView } from 'Views/components/backdrop-view';
 
 export class GameScene extends Phaser.Scene {
     private jackpot: Jackpot;
-    private jackpotService: JackpotService;
+    private getPrizeHandler: GetPrizeHandler;
     private backgroundMusic: Phaser.Sound.BaseSound;
     private backdrop: BackdropView;
     private giftboxes: GiftBoxView[];
@@ -18,7 +18,7 @@ export class GameScene extends Phaser.Scene {
     constructor() {
         super({ key: 'GameScene' });
 
-        this.jackpotService = new JackpotService();
+        this.getPrizeHandler = new GetPrizeHandler();
         this.openingBox = false;
     }
 
@@ -42,7 +42,7 @@ export class GameScene extends Phaser.Scene {
         });
         this.backgroundMusic.play();
 
-        const prizeIndex = await this.jackpotService.getPrize();
+        const prizeIndex = await this.getPrizeHandler.getPrize();
         this.jackpot = new Jackpot(GameConstants.PRIZES, prizeIndex, GameConstants.NUM_OF_BOXES);
 
         this.add.image(DisplayConstants.GAME_CENTER_X, DisplayConstants.GAME_CENTER_Y, 'background');
