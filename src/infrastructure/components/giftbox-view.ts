@@ -82,7 +82,7 @@ export class GiftBoxView {
 
         return this.scene.tweens.add({
             targets: [this.boxSprite],
-            duration: 1000,
+            duration: 800,
             ease: 'Cubic.easeOut',
             scale: GiftBoxView.SPRITE_SCALE_BIG,
             x: DisplayConstants.GAME_CENTER_X,
@@ -98,7 +98,7 @@ export class GiftBoxView {
         const tween = this.scene.tweens.add({
             targets: [this.boxSprite],
             repeat: 2,
-            duration: 450,
+            duration: 350,
             yoyo: true,
             ease: 'Quad.easeIn',
             scaleX: 0,
@@ -124,7 +124,7 @@ export class GiftBoxView {
 
         return this.scene.tweens.add({
             targets: [this.prizeSprite],
-            duration: 450,
+            duration: 350,
             ease: 'Quad.easeOut',
             scaleX: GiftBoxView.SPRITE_SCALE_BIG,
             onComplete: () => {
@@ -154,8 +154,8 @@ export class GiftBoxView {
     private startBoxGoBackAnimation() {
         return this.scene.tweens.add({
             targets: [this.prizeSprite],
-            delay: 2000,
-            duration: 1000,
+            delay: 1500,
+            duration: 800,
             ease: 'Cubic.easeOut',
             scale: GiftBoxView.SPRITE_SCALE,
             x: this.x,
