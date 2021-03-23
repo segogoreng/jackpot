@@ -1,4 +1,4 @@
-import { DisplayConstants } from 'Constants/display-constants';
+import { DisplayConstants } from 'Config/display-constants';
 import { GameScene } from 'Infrastructure/scenes/game-scene';
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {

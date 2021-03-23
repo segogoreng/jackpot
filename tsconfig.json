@@ -15,7 +15,7 @@
         "baseUrl": ".",
         "forceConsistentCasingInFileNames": true,
         "paths": {
-            "Constants/*": ["src/constants/*", "dist/constants/*"],
+            "Config/*": ["src/config/*", "dist/config/*"],
             "Domain/*": ["src/domain/*", "dist/domain/*"],
             "Infrastructure/*": ["src/infrastructure/*", "dist/infrastructure/*"],
         },

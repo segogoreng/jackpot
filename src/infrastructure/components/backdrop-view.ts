@@ -1,4 +1,4 @@
-import { DisplayConstants } from 'Constants/display-constants';
+import { DisplayConstants } from 'Config/display-constants';
 
 export class BackdropView {
     private static readonly ALPHA = 0.8;

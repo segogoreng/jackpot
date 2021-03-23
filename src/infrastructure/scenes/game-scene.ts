@@ -1,6 +1,6 @@
 import 'phaser';
-import { DisplayConstants } from 'Constants/display-constants';
-import { GameConstants } from 'Constants/game-constants';
+import { DisplayConstants } from 'Config/display-constants';
+import { GameConstants } from 'Config/game-constants';
 import { Jackpot } from 'Domain/jackpot';
 import { GiftBoxView } from 'Infrastructure/components/giftbox-view';
 import { JackpotService } from 'Infrastructure/services/jackpot-service';

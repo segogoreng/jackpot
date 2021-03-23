@@ -13,7 +13,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            Constants: path.resolve(__dirname, 'src/constants/'),
+            Config: path.resolve(__dirname, 'src/config/'),
             Domain: path.resolve(__dirname, 'src/domain/'),
             Infrastructure: path.resolve(__dirname, 'src/infrastructure/'),
         },
