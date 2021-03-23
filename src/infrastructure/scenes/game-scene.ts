@@ -26,7 +26,7 @@ export class GameScene extends Phaser.Scene {
         this.load.image('background', 'assets/images/sky.jpg');
         this.load.image('backdrop', 'assets/images/backdrop.png');
         this.load.image('giftbox', 'assets/images/giftbox.jpg');
-        this.load.image('particle', 'assets/images/white.png');
+        this.load.image('particle', 'assets/images/red.png');
 
         GameConstants.PRIZES.forEach((prize) => {
             this.load.image(prize.toString(), `assets/images/${prize}.jpg`);
