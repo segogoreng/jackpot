@@ -16,6 +16,7 @@
         "forceConsistentCasingInFileNames": true,
         "paths": {
             "Config/*": ["src/config/*", "dist/config/*"],
+            "Helpers/*": ["src/helpers/*", "dist/helpers/*"],
             "Models/*": ["src/models/*", "dist/models/*"],
             "Infrastructure/*": ["src/infrastructure/*", "dist/infrastructure/*"],
         },

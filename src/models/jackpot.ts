@@ -1,5 +1,5 @@
 import { Random } from 'random';
-import { Utils } from 'Models/utils';
+import { Utils } from 'Helpers/utils';
 const random: Random = require('random');
 
 export class Jackpot {
