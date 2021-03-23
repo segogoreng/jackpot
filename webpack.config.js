@@ -14,7 +14,7 @@ module.exports = {
     resolve: {
         alias: {
             Config: path.resolve(__dirname, 'src/config/'),
-            Domain: path.resolve(__dirname, 'src/domain/'),
+            Models: path.resolve(__dirname, 'src/models/'),
             Infrastructure: path.resolve(__dirname, 'src/infrastructure/'),
         },
         mainFields: ['browser', 'main', 'module'],

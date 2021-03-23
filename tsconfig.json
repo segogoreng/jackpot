@@ -16,7 +16,7 @@
         "forceConsistentCasingInFileNames": true,
         "paths": {
             "Config/*": ["src/config/*", "dist/config/*"],
-            "Domain/*": ["src/domain/*", "dist/domain/*"],
+            "Models/*": ["src/models/*", "dist/models/*"],
             "Infrastructure/*": ["src/infrastructure/*", "dist/infrastructure/*"],
         },
         "skipLibCheck": true,
