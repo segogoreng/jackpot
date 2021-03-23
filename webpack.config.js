@@ -14,9 +14,11 @@ module.exports = {
     resolve: {
         alias: {
             Config: path.resolve(__dirname, 'src/config/'),
+            Externals: path.resolve(__dirname, 'src/externals/'),
+            Handlers: path.resolve(__dirname, 'src/handlers/'),
             Helpers: path.resolve(__dirname, 'src/helpers/'),
-            Infrastructure: path.resolve(__dirname, 'src/infrastructure/'),
             Models: path.resolve(__dirname, 'src/models/'),
+            Views: path.resolve(__dirname, 'src/views/'),
         },
         mainFields: ['browser', 'main', 'module'],
         extensions: [ '.ts', '.tsx', '.js' ]

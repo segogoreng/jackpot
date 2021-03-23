@@ -1,5 +1,5 @@
 import { DisplayConstants } from 'Config/display-constants';
-import { GameScene } from 'Infrastructure/scenes/game-scene';
+import { GameScene } from 'Views/scenes/game-scene';
 
 export const GameConfig: Phaser.Types.Core.GameConfig = {
     type: Phaser.AUTO,

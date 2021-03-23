@@ -16,9 +16,11 @@
         "forceConsistentCasingInFileNames": true,
         "paths": {
             "Config/*": ["src/config/*", "dist/config/*"],
+            "Externals/*": ["src/externals/*", "dist/externals/*"],
+            "Handlers/*": ["src/handlers/*", "dist/handlers/*"],
             "Helpers/*": ["src/helpers/*", "dist/helpers/*"],
             "Models/*": ["src/models/*", "dist/models/*"],
-            "Infrastructure/*": ["src/infrastructure/*", "dist/infrastructure/*"],
+            "Views/*": ["src/views/*", "dist/views/*"],
         },
         "skipLibCheck": true,
         "experimentalDecorators": true,

@@ -2,9 +2,9 @@ import 'phaser';
 import { DisplayConstants } from 'Config/display-constants';
 import { GameConstants } from 'Config/game-constants';
 import { Jackpot } from 'Models/jackpot';
-import { GiftBoxView } from 'Infrastructure/components/giftbox-view';
-import { JackpotService } from 'Infrastructure/services/jackpot-service';
-import { BackdropView } from 'Infrastructure/components/backdrop-view';
+import { GiftBoxView } from 'Views/components/giftbox-view';
+import { JackpotService } from 'Views/services/jackpot-service';
+import { BackdropView } from 'Views/components/backdrop-view';
 
 export class GameScene extends Phaser.Scene {
     private jackpot: Jackpot;

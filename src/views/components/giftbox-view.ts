@@ -1,5 +1,5 @@
 import { DisplayConstants } from 'Config/display-constants';
-import { OnCompleteAnimation } from 'Infrastructure/components/on-complete-animation';
+import { OnCompleteAnimation } from 'Views/components/on-complete-animation';
 import { Random } from 'random';
 const random: Random = require('random');
 
