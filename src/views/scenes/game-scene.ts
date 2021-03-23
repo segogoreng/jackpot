@@ -2,16 +2,16 @@ import 'phaser';
 import { DisplayConstants } from 'Config/display-constants';
 import { GameConstants } from 'Config/game-constants';
 import { Jackpot } from 'Models/jackpot';
-import { GiftBoxView } from 'Views/components/giftbox-view';
+import { GiftBox } from 'Views/components/giftbox';
 import { GetPrizeHandler } from 'Handlers/get-prize-handler';
-import { BackdropView } from 'Views/components/backdrop-view';
+import { Backdrop } from 'Views/components/backdrop';
 
 export class GameScene extends Phaser.Scene {
     private jackpot: Jackpot;
     private getPrizeHandler: GetPrizeHandler;
     private backgroundMusic: Phaser.Sound.BaseSound;
-    private backdrop: BackdropView;
-    private giftboxes: GiftBoxView[];
+    private backdrop: Backdrop;
+    private giftboxes: GiftBox[];
     private text: Phaser.GameObjects.Text;
     private openingBox: boolean;
 
@@ -64,7 +64,7 @@ export class GameScene extends Phaser.Scene {
             repeat: -1,
         });
 
-        this.backdrop = new BackdropView(this);
+        this.backdrop = new Backdrop(this);
     }
 
     public update(): void {}
@@ -76,7 +76,7 @@ export class GameScene extends Phaser.Scene {
             for (let col = 0; col < GameConstants.BOX_COLS; col++) {
                 const x = (DisplayConstants.GAME_WIDTH / GameConstants.BOX_COLS / 2) * (col * 2 + 1);
                 const y = (DisplayConstants.GAME_HEIGHT / GameConstants.BOX_ROWS / 2) * (row * 2 + 1);
-                const giftbox = new GiftBoxView(this, x, y, () => {
+                const giftbox = new GiftBox(this, x, y, () => {
                     this.openingBox = false;
                     this.backdrop.hide();
                     if (this.jackpot.isWinning()) {

@@ -1,9 +1,9 @@
 import { DisplayConstants } from 'Config/display-constants';
-import { OnCompleteAnimation } from 'Views/components/on-complete-animation';
+import { OnCompleteAnimation } from 'Views/listeners/on-complete-animation';
 import { Random } from 'random';
 const random: Random = require('random');
 
-export class GiftBoxView {
+export class GiftBox {
     private static readonly SPRITE_SCALE = 0.3;
     private static readonly SPRITE_SCALE_BIG = 0.7;
     private static readonly NUM_OF_EMITTER_FOR_FIREWORK_EFFECT = 72;
@@ -29,7 +29,7 @@ export class GiftBoxView {
         this.particles.setDepth(2);
 
         this.boxSprite = scene.add.sprite(x, y, 'giftbox').setInteractive();
-        this.boxSprite.scale = GiftBoxView.SPRITE_SCALE;
+        this.boxSprite.scale = GiftBox.SPRITE_SCALE;
 
         this.prizeSet = false;
 
@@ -84,7 +84,7 @@ export class GiftBoxView {
             targets: [this.boxSprite],
             duration: 800,
             ease: 'Cubic.easeOut',
-            scale: GiftBoxView.SPRITE_SCALE_BIG,
+            scale: GiftBox.SPRITE_SCALE_BIG,
             x: DisplayConstants.GAME_CENTER_X,
             y: DisplayConstants.GAME_CENTER_Y,
             onComplete: () => {
@@ -119,14 +119,14 @@ export class GiftBoxView {
     private startPrizeRevealingAnimation(prize: number): Phaser.Tweens.Tween {
         this.prizeSprite = this.scene.add.sprite(this.boxSprite.x, this.boxSprite.y, prize.toString());
         this.prizeSprite.scaleX = 0;
-        this.prizeSprite.scaleY = GiftBoxView.SPRITE_SCALE_BIG;
+        this.prizeSprite.scaleY = GiftBox.SPRITE_SCALE_BIG;
         this.prizeSprite.setDepth(3);
 
         return this.scene.tweens.add({
             targets: [this.prizeSprite],
             duration: 350,
             ease: 'Quad.easeOut',
-            scaleX: GiftBoxView.SPRITE_SCALE_BIG,
+            scaleX: GiftBox.SPRITE_SCALE_BIG,
             onComplete: () => {
                 this.startBoxGoBackAnimation();
             },
@@ -134,8 +134,8 @@ export class GiftBoxView {
     }
 
     private startFireworkEffect(): void {
-        for (let i = 0; i < GiftBoxView.NUM_OF_EMITTER_FOR_FIREWORK_EFFECT; i++) {
-            const angle = i * (360 / GiftBoxView.NUM_OF_EMITTER_FOR_FIREWORK_EFFECT);
+        for (let i = 0; i < GiftBox.NUM_OF_EMITTER_FOR_FIREWORK_EFFECT; i++) {
+            const angle = i * (360 / GiftBox.NUM_OF_EMITTER_FOR_FIREWORK_EFFECT);
 
             this.particles.createEmitter({
                 x: DisplayConstants.GAME_CENTER_X,
@@ -157,7 +157,7 @@ export class GiftBoxView {
             delay: 1500,
             duration: 800,
             ease: 'Cubic.easeOut',
-            scale: GiftBoxView.SPRITE_SCALE,
+            scale: GiftBox.SPRITE_SCALE,
             x: this.x,
             y: this.y,
             onComplete: () => {

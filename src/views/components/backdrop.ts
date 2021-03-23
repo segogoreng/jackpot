@@ -1,13 +1,13 @@
 import { DisplayConstants } from 'Config/display-constants';
 
-export class BackdropView {
+export class Backdrop {
     private static readonly ALPHA = 0.8;
 
     private image: Phaser.GameObjects.Image;
 
     constructor(scene: Phaser.Scene) {
         this.image = scene.add.image(DisplayConstants.GAME_CENTER_X, DisplayConstants.GAME_CENTER_Y, 'backdrop');
-        this.image.setAlpha(BackdropView.ALPHA);
+        this.image.setAlpha(Backdrop.ALPHA);
         this.image.visible = false;
         this.image.setDepth(1);
     }
